@@ -1,0 +1,10 @@
+C:\Users\iangj\Desktop\Calculator_Solution\Calculator_FormProject\bin\Debug\Calculator_FormProject.exe.config
+C:\Users\iangj\Desktop\Calculator_Solution\Calculator_FormProject\bin\Debug\Calculator_FormProject.exe
+C:\Users\iangj\Desktop\Calculator_Solution\Calculator_FormProject\bin\Debug\Calculator_FormProject.pdb
+C:\Users\iangj\Desktop\Calculator_Solution\Calculator_FormProject\obj\Debug\Calculator_FormProject.csprojAssemblyReference.cache
+C:\Users\iangj\Desktop\Calculator_Solution\Calculator_FormProject\obj\Debug\Calculator_FormProject.frmMain.resources
+C:\Users\iangj\Desktop\Calculator_Solution\Calculator_FormProject\obj\Debug\Calculator_FormProject.Properties.Resources.resources
+C:\Users\iangj\Desktop\Calculator_Solution\Calculator_FormProject\obj\Debug\Calculator_FormProject.csproj.GenerateResource.cache
+C:\Users\iangj\Desktop\Calculator_Solution\Calculator_FormProject\obj\Debug\Calculator_FormProject.csproj.CoreCompileInputs.cache
+C:\Users\iangj\Desktop\Calculator_Solution\Calculator_FormProject\obj\Debug\Calculator_FormProject.exe
+C:\Users\iangj\Desktop\Calculator_Solution\Calculator_FormProject\obj\Debug\Calculator_FormProject.pdb
