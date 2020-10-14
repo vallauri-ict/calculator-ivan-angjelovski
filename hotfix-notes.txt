@@ -1,0 +1,1 @@
+This hotfix solves a problem with the result decimal number formatting
