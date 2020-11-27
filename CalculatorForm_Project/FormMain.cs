@@ -22,7 +22,7 @@ namespace CalculatorForm_Project
             public bool IsPlusMinusSign;
             public bool IsOperator;
             public bool IsEqualSign;
-            public ButtonStruct(char content, bool isBold, bool isNumber=false, bool isDecimalSeparator = false, bool isPlusMinusSign=false, bool isOperator=false,  bool isEqualSign=false)
+            public ButtonStruct(char content, bool isBold, bool isNumber = false, bool isDecimalSeparator = false, bool isPlusMinusSign = false, bool isOperator = false, bool isEqualSign = false)
             {
                 this.Content = content;
                 this.IsBold = isBold;
@@ -31,27 +31,29 @@ namespace CalculatorForm_Project
                 this.IsPlusMinusSign = isPlusMinusSign;
                 this.IsOperator = isOperator;
                 this.IsEqualSign = isEqualSign;
-                
             }
             public override string ToString()
             {
                 return Content.ToString();
             }
         }
-        
+
         //private char[,] buttons = new char [6,4];
         private ButtonStruct[,] buttons =
         {
-            {new ButtonStruct(' ',false), new ButtonStruct(' ',false), new ButtonStruct('C',false), new ButtonStruct('<',false) },
-            {new ButtonStruct(' ',false), new ButtonStruct(' ',false), new ButtonStruct('s',false,false,false,false,false,true), new ButtonStruct('/',false,false,false,false,true) },
-            {new ButtonStruct('7',true,true), new ButtonStruct('8',true,true), new ButtonStruct('9',true,true), new ButtonStruct('x',false,false,false,false,true) },
-            {new ButtonStruct('4',true,true), new ButtonStruct('5',true,true), new ButtonStruct('6',true,true), new ButtonStruct('-',false,false,false,false,true) },
-            {new ButtonStruct('1',true,true), new ButtonStruct('2',true,true), new ButtonStruct('3',true,true), new ButtonStruct('+',false,false,false,false,true) },
-            {new ButtonStruct('±',false,false,false,true), new ButtonStruct('0',true,true), new ButtonStruct(',',false,false,true), new ButtonStruct('=',false,false,false,false,true,true) }
+            { new ButtonStruct(' ',false), new ButtonStruct('^',false,false,false,false,true), new ButtonStruct('C',false), new ButtonStruct('<',false) },
+            { new ButtonStruct('¼',false,false,false,false,true), new ButtonStruct(' ',false,false,false,false,true), new ButtonStruct(' ',false,false,false,false,true), new ButtonStruct('/',false,false,false,false,true) },
+            { new ButtonStruct('7',true,true), new ButtonStruct('8',true,true), new ButtonStruct('9',true,true), new ButtonStruct('x',false,false,false,false,true) },
+            { new ButtonStruct('4',true,true), new ButtonStruct('5',true,true), new ButtonStruct('6',true,true), new ButtonStruct('-',false,false,false,false,true) },
+            { new ButtonStruct('1',true,true), new ButtonStruct('2',true,true), new ButtonStruct('3',true,true), new ButtonStruct('+',false,false,false,false,true) },
+            { new ButtonStruct('±',false,false,false,true), new ButtonStruct('0',true,true), new ButtonStruct(',',false,false,true), new ButtonStruct('=',false,false,false,false,true,true) }
         };
 
         private RichTextBox resultBox;
-        private Font baseFont = new Font("Segoe UI", 22, FontStyle.Bold);
+        private Font baseFontResult = new Font("Segoe UI", 22, FontStyle.Bold);
+
+        private RichTextBox historyBox;
+        private Font baseFontHistory = new Font("Segoe UI", 12, FontStyle.Bold);
 
         private const char ASCIIZERO = '\x0000';
         private double operand1, operand2, result;
@@ -64,9 +66,10 @@ namespace CalculatorForm_Project
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-             MakeResultBox();
+            MakeResultBox();
+            MakeHistoryBox();
             MakeButtons(buttons);
-            
+
         }
 
         private void MakeResultBox()
@@ -74,31 +77,46 @@ namespace CalculatorForm_Project
             resultBox = new RichTextBox();
             resultBox.ReadOnly = true;
             resultBox.SelectionAlignment = HorizontalAlignment.Right;
-            resultBox.Font = baseFont;
+            resultBox.Font = baseFontResult;
             resultBox.Width = this.Width - 16;
             resultBox.Height = 50;
-            resultBox.Top = 20;
+            resultBox.Top = 44;
             resultBox.Text = "0";
             resultBox.TabStop = false;
             resultBox.TextChanged += ResultBox_TextChanged;
             this.Controls.Add(resultBox);
         }
 
+        private void MakeHistoryBox()
+        {
+            historyBox = new RichTextBox();
+            historyBox.ReadOnly = true;
+            historyBox.SelectionAlignment = HorizontalAlignment.Right;
+            historyBox.Font = baseFontHistory;
+            historyBox.Width = this.Width - 16;
+            historyBox.Height = 30;
+            historyBox.Top = 8;
+            historyBox.Text = "";
+            historyBox.TabStop = false;
+            historyBox.TextChanged += ResultBox_TextChanged;
+            this.Controls.Add(historyBox);
+        }
+
         private void ResultBox_TextChanged(object sender, EventArgs e)
         {
-            if(resultBox.Text.Length == 1)
+            if (resultBox.Text.Length == 1)
             {
-                resultBox.Font = baseFont;
+                resultBox.Font = baseFontResult;
             }
             else
             {
                 int delta = 17 - resultBox.Text.Length;
                 if (delta % 2 == 0)
                 {
-                    float newSize = baseFont.Size + delta;
+                    float newSize = baseFontResult.Size + delta;
                     if (newSize > 8 && newSize < 23)
                     {
-                        resultBox.Font = new Font(baseFont.FontFamily, newSize, baseFont.Style);
+                        resultBox.Font = new Font(baseFontResult.FontFamily, newSize, baseFontResult.Style);
                     }
                 }
             }
@@ -119,7 +137,7 @@ namespace CalculatorForm_Project
                     ButtonStruct bs = buttons[i, j];
                     //newButton.Text = bs.Content.ToString();
                     newButton.Text = buttons[i, j].ToString();
-                    if(bs.IsBold)
+                    if (bs.IsBold)
                     {
                         newButton.Font = new Font(newButton.Font, FontStyle.Bold);
                     }
@@ -141,7 +159,7 @@ namespace CalculatorForm_Project
         {
             Button clickedButton = (Button)sender;
             ButtonStruct bs = (ButtonStruct)clickedButton.Tag;
-            if(bs.IsNumber)
+            if (bs.IsNumber)
             {
                 if (lastButtonClicked.IsEqualSign)
                 {
@@ -164,7 +182,7 @@ namespace CalculatorForm_Project
                 }
                 if (bs.IsPlusMinusSign)
                 {
-                    if(!resultBox.Text.Contains("-"))
+                    if (!resultBox.Text.Contains("-"))
                     {
                         resultBox.Text = "-" + resultBox.Text;
                     }
@@ -182,7 +200,7 @@ namespace CalculatorForm_Project
                             break;
                         case '<':
                             resultBox.Text = resultBox.Text.Remove(resultBox.Text.Length - 1);
-                            if(resultBox.Text.Length == 0 || resultBox.Text == "-0" || resultBox.Text == "-")
+                            if (resultBox.Text.Length == 0 || resultBox.Text == "-0" || resultBox.Text == "-")
                             {
                                 resultBox.Text = "0";
                             }
@@ -190,8 +208,11 @@ namespace CalculatorForm_Project
                         case 's':
                             resultBox.Text = Math.Sqrt(Convert.ToDouble(resultBox.Text)).ToString();
                             break;
+                        case '^':
+                            resultBox.Text = Math.Pow(Convert.ToInt32(result), 2).ToString();
+                            break;
                         default:
-                            if(bs.IsOperator) manageOperators(bs);
+                            if (bs.IsOperator) manageOperators(bs);
                             break;
                     }
                 }
@@ -206,7 +227,7 @@ namespace CalculatorForm_Project
             return number.ToString("N16").TrimEnd('0').TrimEnd(decimalSeparator);
         }
 
-        private void clearAll(double numberToWrite=0)
+        private void clearAll(double numberToWrite = 0)
         {
             operand1 = 0;
             operand2 = 0;
@@ -217,7 +238,7 @@ namespace CalculatorForm_Project
 
         private void manageOperators(ButtonStruct bs)
         {
-            if(lastOperator == ASCIIZERO)
+            if (lastOperator == ASCIIZERO)
             {
                 operand1 = double.Parse(resultBox.Text);
                 lastOperator = bs.Content;
@@ -244,6 +265,9 @@ namespace CalculatorForm_Project
                             break;
                         case '/':
                             result = operand1 / operand2;
+                            break;
+                        case '¼':
+                            result = 1 / result; // TODO: gestire casi particolari
                             break;
                         default:
                             break;
