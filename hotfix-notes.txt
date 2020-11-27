@@ -1,2 +1,3 @@
 8/10/2020: This hotfix solves a problem with the result decimal number formatting
 14/10/2020: Better and now perfect result formatting (directly on develop branch)
+27/11/2020: Square root
